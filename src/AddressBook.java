@@ -103,23 +103,40 @@ public class AddressBook {
     }
 
     public void listContactos(){
-        contacts.forEach((nombre, numero) -> {
-            System.out.println("Nombre: " +  nombre + ", Teléfono: " + numero);
-        });
+        System.out.println("--------- Agenda telefónica ---------");
+        System.out.println("");
+        for (Map.Entry<String, String> entry : contacts.entrySet()){
+            System.out.println("Nombre: " +  entry.getKey() + ", Teléfono: " + entry.getValue());
+        };
+        System.out.println("");
+        System.out.println("------------------------------------");
+        System.out.println("");
     }
 
     public void actualizarContacto() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("Ingresa el nombre del contacto que quieres actualizar");
-        String nombre = reader.readLine();
+        String nombre = reader.readLine().trim();
+        String numero;
 
         if (!contacts.containsKey(nombre)) {
             System.out.println("No encontre a nadie con este nombre");
         } else {
             System.out.println(nombre + " tiene el teléfono " + contacts.get(nombre));
             System.out.println("Ingresa el nuevo teléfono para " + nombre );
-             
+            do {
+                System.out.println("Ingresa el numero (10 dígitos):");
+                numero = reader.readLine().trim().replaceAll(" ","");
+
+                if (!numero.matches("\\d{10}")) {
+                    System.out.println("El numero sólo puede contener 10 dígitos. Inténtalo de nuevo.");
+                }
+
+                contacts.replace(nombre,numero);
+                save();
+            } while ( !numero.matches("\\d{10}"));
+
         }
 
     }
@@ -128,11 +145,13 @@ public class AddressBook {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             System.out.println("¿Cuál contacto deseas eliminar?");
+            listContactos();
             String contactoAEliminar = reader.readLine().trim();
             if ( contacts.remove(contactoAEliminar) == null ) {
                 System.out.println("No existe ningun usuario con ese nombre.");
             } else {
                 System.out.println("Contacto eliminado.");
+                save();
             };
         } catch (IOException e) {
             throw new RuntimeException(e);
