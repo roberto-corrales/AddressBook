@@ -36,58 +36,6 @@ public class AddressBook {
         }
     }
 
-
-    public static void main(String[] args) throws IOException {
-        AddressBook addressBook = new AddressBook();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        boolean running = true;
-
-        do {
-            System.out.println("---------- Menú Principal ----------");
-            System.out.println();
-            System.out.println("Selecciona una opcion del siguiente menú:");
-            System.out.println("1. Crear nuevo contacto");
-            System.out.println("2. Mostrar todos los contactos");
-            System.out.println("3. Buscar contacto");
-            System.out.println("4. Actualizar contacto");
-            System.out.println("5. Borrar contacto");
-            System.out.println("9. Terminar programa");
-
-
-            switch ( reader.readLine() ){
-                case "1" -> addressBook.crearContacto();
-                case "2" -> addressBook.listContactos();
-                case "3" -> addressBook.buscarContacto();
-                case "4" -> addressBook.actualizarContacto();
-                case "5" -> addressBook.deleteContacto();
-                case "9" -> running = addressBook.salirPrograma();
-                default -> System.out.println("Opción invalida.");
-
-            }
-
-        } while (running );
-        //return;
-
-    }
-
-    private void buscarContacto() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("-------- Buscar contacto -------");
-        System.out.println("Ingresa el nombre del contacto que quieres buscar");
-        try {
-            String nombre = reader.readLine().trim();
-            if (contacts.containsKey(nombre)){
-                System.out.println("El telefono de " + nombre + " es " + contacts.get(nombre));
-            } else {
-                System.out.println("No hay ningún teléfono registrado para " + nombre);
-            }
-
-        } catch (IOException e) {
-            System.err.println("Error al leer la entrada: " + e.getMessage());
-        }
-        System.out.println();
-    }
-
     public void crearContacto() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("-------- Agregar contacto -------");
@@ -122,8 +70,8 @@ public class AddressBook {
                 if (contacts.containsValue(numero)){
                     for (Map.Entry<String, String> entry : contacts.entrySet()){
                         if (entry.getValue().equals(numero) ) {
-                           System.out.println("El número " + entry.getValue() +  " esta asignado actualmente a " + entry.getKey() );
-                           return;
+                            System.out.println("El número " + entry.getValue() +  " esta asignado actualmente a " + entry.getKey() );
+                            return;
                         }
 
                     }
@@ -149,6 +97,25 @@ public class AddressBook {
         System.out.println();
         for (Map.Entry<String, String> entry : contacts.entrySet()){
             System.out.println("Nombre: " +  entry.getKey() + ", Teléfono: " + entry.getValue());
+        }
+        System.out.println();
+    }
+
+    private void buscarContacto() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("-------- Buscar contacto -------");
+        System.out.println("Ingresa el nombre del contacto que quieres buscar");
+        try {
+
+            String nombre = reader.readLine().trim();
+            if (contacts.containsKey(nombre)){
+                System.out.println("El telefono de " + nombre + " es " + contacts.get(nombre));
+            } else {
+                System.out.println("No hay ningún teléfono registrado para " + nombre);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error al leer la entrada: " + e.getMessage());
         }
         System.out.println();
     }
@@ -205,4 +172,38 @@ public class AddressBook {
         System.out.println("Saliendo del programa. ¡Hasta pronto!");
         return false;
     }
+
+    public static void main(String[] args) throws IOException {
+        AddressBook addressBook = new AddressBook();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        boolean running = true;
+
+        do {
+            System.out.println("---------- Menú Principal ----------");
+            System.out.println();
+            System.out.println("Selecciona una opcion del siguiente menú:");
+            System.out.println("1. Crear nuevo contacto");
+            System.out.println("2. Mostrar todos los contactos");
+            System.out.println("3. Buscar contacto");
+            System.out.println("4. Actualizar contacto");
+            System.out.println("5. Borrar contacto");
+            System.out.println("9. Terminar programa");
+
+
+            switch ( reader.readLine() ){
+                case "1" -> addressBook.crearContacto();
+                case "2" -> addressBook.listContactos();
+                case "3" -> addressBook.buscarContacto();
+                case "4" -> addressBook.actualizarContacto();
+                case "5" -> addressBook.deleteContacto();
+                case "9" -> running = addressBook.salirPrograma();
+                default -> System.out.println("Opción invalida.");
+
+            }
+
+        } while (running );
+        //return;
+
+    }
+
 }
