@@ -123,7 +123,7 @@ public class AddressBook {
     public void actualizarContacto() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("-------- Agregar contacto -------");
+        System.out.println("-------- Actualizar contacto -------");
         System.out.println("Ingresa el nombre del contacto que quieres actualizar");
         String nombre = reader.readLine().trim();
         String numero;
@@ -139,6 +139,17 @@ public class AddressBook {
                 if (!numero.matches("\\d{10}")) {
                     System.out.println("El numero sólo puede contener 10 dígitos. Inténtalo de nuevo.");
                     continue;
+                }
+
+                if (contacts.containsValue(numero)){
+                    for (Map.Entry<String, String> entry : contacts.entrySet()){
+                        if (entry.getValue().equals(numero) ) {
+                            System.out.println("El número " + entry.getValue() +  " esta asignado actualmente a " + entry.getKey() );
+                            return;
+                        }
+
+                    }
+
                 }
 
                 contacts.replace(nombre,numero);
