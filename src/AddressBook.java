@@ -138,6 +138,7 @@ public class AddressBook {
 
                 if (!numero.matches("\\d{10}")) {
                     System.out.println("El numero sólo puede contener 10 dígitos. Inténtalo de nuevo.");
+                    continue;
                 }
 
                 contacts.replace(nombre,numero);
